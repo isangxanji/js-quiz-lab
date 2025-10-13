@@ -1,0 +1,3 @@
+Reflection on Js Quiz App Activity 4
+
+The instruction was to write a one-sentence reflection but I have a lot to say, so, this will be more than one sentence obviously. For me, the activity is not that hard because when I debugged it, I don’t see a lot of problems like I expected. Since I discover the console tab, I just use it for the until I finished debugging. I didn’t follow the step-by-step instruction because I can see in the console tab which line the error, so that’s how I did this activity.  I feel like I miss some steps.
