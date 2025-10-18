@@ -16,11 +16,66 @@ const quizData = [
         question: "What is the purpose of a for loop?",
         options: ["To declare variables", "To repeat code a set number of times", "To handle events", "To style elements"],
         correct: 1
-    },
+    }, 
     {
         question: "How do you select an element by ID in the DOM?",
         options: ["querySelector", "getElementById", "createElement", "appendChild"],
         correct: 1
+    },
+    {
+        question: "Which keyword is used to define a constant variable in JavaScript?",
+        options: ["var", "let", "const", "static"],
+        correct: 2
+    },
+    {
+        question: "What will 'typeof []' return?",
+        options: ["array", "object", "list", "undefined"],
+        correct: 1
+    },
+    {
+        question: "Which symbol is used for single-line comments in JavaScript?",
+        options: ["/* comment *", "# comment", "// comment", "<!-- comment -->"],
+        correct: 2
+    },
+    {
+        question: "Which company developed Javascript?",
+        options: ["Microsoft", "Netscape", "Google", "Oracle"],
+        correct: 1
+    },
+    {
+        question: "How do you write 'Hello World' in an alert box?",
+        options: ["msg('Hello World');", "alert('Hello World');", "alertBox('Hello world');", "console.log('Hello world');"],
+        correct: 1
+    },
+    {
+        question: "Which symbol is used to separate properties in an object?",
+        options: [",", ":", ";", "="],
+        correct: 0
+    },
+    {
+        question: "Which Keyword is used to skip the rest of a loop iteration?",
+        options: ["break", "continue", "stop", "return"],
+        correct: 1
+    },
+    {
+        question: "Which function is used to print messages to the browser console?",
+        options: ["console.print()", "log.console()", "console.log()", "print.console()"],
+        correct: 2
+    },
+    {
+        question: "What value does an uninitialized variable have?",
+        options: ["null", "undefined", "0", "false"],
+        correct: 1
+    },
+    {
+        question: "Which method adds a new element at the end of an array?",
+        options: ["push()", "pop()", "shift()", "unshift()"],
+        correct: 0
+    },
+    {
+        question: "What does 'NaN' mean in JavaScript?",
+        options: ["Not a Null", "New array number", "Not a Number", "Negative array number"],
+        correct: 2
     }
     // Students: Add more here for extension!
 ];
@@ -129,21 +184,34 @@ function showScore() {
     else feedback = "Good start—dive back into the lecture notes for a refresh. 📚";
     document.getElementById('feedback').textContent = feedback;
     // Extension: High score
-    if (score > highScore) {
+    if (score >= highScore) {
         highScore = score;
         localStorage.setItem('jsQuizHighScore', highScore);
         document.getElementById('high-score').style.display = 'block'; //ubos ani akong gi change 
         document.getElementById('high-score-val').textContent = highScore;
     }
+    
 }
 function restartQuiz() {
     currentQuestion = 0;
     score = 0;
     selectedAnswer = -1;
+
+    quizData.sort(() => Math.random() - 0.5); //shuffle the questions 
+
     document.getElementById('question-container').style.display = 'block';
     document.getElementById('score-container').style.display = 'none';
     document.getElementById('high-score').style.display = 'none';
     loadQuestion();
 }
 // Initialize on page load
-document.addEventListener('DOMContentLoaded', loadQuestion);
+document.addEventListener('DOMContentLoaded', () => {
+
+    quizData.sort(() => Math.random() - 0.5); //shuffle
+
+    loadQuestion();
+
+    const highScoreVal = localStorage.getItem('jsQuizHighScore') || 0;
+    document.getElementById('high-score-val').textContent = highScoreVal;
+    document.getElementById('high-score').style.display = 'block';
+});
