@@ -87,6 +87,23 @@ let timerInterval; // For per-question timer
 let timeLeft = 30; // 30 seconds per question
 let highScore = localStorage.getItem('jsQuizHighScore') || 0;
 
+// NEW: Time's Up Popup
+function showTimesUp() {
+    document.getElementById('timesup-modal').style.display = 'flex';
+}
+function closeTimesUp() {
+    document.getElementById('timesup-modal').style.display = 'none';
+    nextQuestion();
+}
+
+
+
+
+
+
+
+
+
 // Utility: Update progress bar
 function updateProgress() {
     const progress = ((currentQuestion + 1) / totalQuestions) * 100;
@@ -96,20 +113,42 @@ function updateProgress() {
 }
 // Extension: Start timer for each question
 function startTimer() {
+
+    // RESET TIMER COLORS EVERY NEW QUESTION
+    const timerText = document.getElementById('timer-text');
+    const timerFill = document.getElementById('timer-fill');
+
+    timerText.classList.remove('timer-warning');
+    timerFill.classList.remove('timer-flash');
+    timerFill.style.background = 'linear-gradient(90deg, #48bb78, #38a169)';
+
     timeLeft = 30;
     document.getElementById('timer-container').style.display = 'block';
     document.getElementById('timer-text').textContent = timeLeft;
     document.getElementById('timer-fill').style.width = '100%';
+
     timerInterval = setInterval(() => {
         timeLeft--;
         document.getElementById('timer-text').textContent = timeLeft;
         document.getElementById('timer-fill').style.width = (timeLeft / 30 * 100) + '%';
+
+        // Warning mode (< 5 seconds)
+        if (timeLeft <= 5) {
+            timerText.classList.add('timer-warning');
+            timerFill.style.background = 'red';
+
+            //if (navigator.vibrate) navigator.vibrate(200);
+
+            //timerFill.classList.add('timer-flash');
+        }
+
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
-            nextQuestion(); // Auto-advance on timeout
+            showTimesUp();
         }
     }, 1000);
 }
+
 // Extension: Clear timer
 function clearTimer() {
     if (timerInterval) {
@@ -214,4 +253,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const highScoreVal = localStorage.getItem('jsQuizHighScore') || 0;
     document.getElementById('high-score-val').textContent = highScoreVal;
     document.getElementById('high-score').style.display = 'block';
+});
+
+//key=enter
+document.addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+        const nextBtn = document.getElementById('next-btn');
+
+        if (nextBtn.style.display === 'block') {
+            nextQuestion();
+        }
+    }
 });
